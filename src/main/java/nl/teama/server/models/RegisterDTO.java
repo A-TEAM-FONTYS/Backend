@@ -16,7 +16,7 @@ public class RegisterDTO {
     private String password;
 
     @NotEmpty(message = "Please provide: firstName")
-    private String firstName; 
+    private String firstName;
 
     @NotEmpty(message = "Please provide: lastName")
     private String lastName;
