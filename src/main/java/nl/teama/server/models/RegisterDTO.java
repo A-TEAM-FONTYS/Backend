@@ -19,5 +19,5 @@ public class RegisterDTO {
     private String firstName;
 
     @NotEmpty(message = "Please provide: lastName")
-    private String lastName;
+    private String lastName; 
 }
