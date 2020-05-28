@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class DataService {
@@ -23,7 +24,19 @@ public class DataService {
         return this.dataRepository.getAllByUser(user);
     }
 
-    public Optional<Data> getDataByUser(User user) {
-        return this.dataRepository.getDataByUser(user);
+    public Data createOrUpdate(Data data) {
+        return this.dataRepository.save(data);
+    }
+
+    public Optional<Data> findById(UUID id) {
+        return this.dataRepository.findById(id);
+    }
+
+    public void deleteById(UUID id) {
+        this.dataRepository.deleteById(id);
+    }
+
+    public List<Data> findAllByAppNameAndUser(String appName, User user) {
+        return this.dataRepository.getAllByAppNameAndUser(appName, user);
     }
 }
