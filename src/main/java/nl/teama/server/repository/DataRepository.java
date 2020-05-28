@@ -12,5 +12,5 @@ import java.util.UUID;
 @Repository
 public interface DataRepository extends JpaRepository<Data, UUID> {
     List<Data> getAllByUser(User user);
-    Optional<Data> getDataByUser(User user);
+    List<Data> getAllByAppNameAndUser(String appName, User user);
 }
