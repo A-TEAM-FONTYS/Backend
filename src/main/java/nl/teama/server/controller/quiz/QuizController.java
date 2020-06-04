@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -44,7 +45,7 @@ public class QuizController {
         return ResponseEntity.ok(quiz);
     }
 
-    @PostMapping(value = "/{id}/{questions}")
+    @PostMapping(value = "/{id}/questions")
     public ResponseEntity createQuestions(@PathVariable String id, @Valid @RequestBody QuestionDTO dto) {
         Quiz quiz = this.quizLogic.createQuestions(UUID.fromString(id), dto);
 
@@ -66,5 +67,17 @@ public class QuizController {
         }
 
         return ResponseEntity.ok(questions);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity getQuiz(@PathVariable String id) {
+        Optional<Quiz> quiz = this.quizLogic.getAllByQuizId(UUID.fromString(id));
+
+        if(quiz.isEmpty()) {
+            logger.error("ERROR: get quiz");
+            return new ResponseEntity<>(QuizResponse.UNEXPECTED_ERROR.toString(), HttpStatus.BAD_REQUEST);
+        }
+
+        return ResponseEntity.ok(quiz.get());
     }
 }

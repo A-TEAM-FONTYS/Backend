@@ -55,4 +55,8 @@ public class QuizLogic {
 
         return Collections.emptyList();
     }
+
+    public Optional<Quiz> getAllByQuizId(UUID id) {
+        return this.quizService.findById(id);
+    }
 }
