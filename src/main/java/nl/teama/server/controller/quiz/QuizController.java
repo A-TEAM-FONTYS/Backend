@@ -73,7 +73,7 @@ public class QuizController {
     public ResponseEntity getQuiz(@PathVariable String id) {
         Optional<Quiz> quiz = this.quizLogic.getAllByQuizId(UUID.fromString(id));
 
-        if(quiz.isEmpty()) {
+        if(!quiz.isPresent()) {
             logger.error("ERROR: get quiz");
             return new ResponseEntity<>(QuizResponse.UNEXPECTED_ERROR.toString(), HttpStatus.BAD_REQUEST);
         }
