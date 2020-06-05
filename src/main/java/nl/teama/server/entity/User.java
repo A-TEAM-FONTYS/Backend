@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import nl.teama.server.entity.enums.Role;
+import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,12 +15,20 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.UUID;
 
 @Entity
+@Table(name = "users")
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public class User extends BaseEntity implements Serializable, UserDetails {
+public class User implements Serializable, UserDetails {
+
+    @Id
+    @Type(type="uuid-char")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
+    private UUID id;
 
     @JsonIgnore
     @NotBlank(message = "Email cannot be blank")
@@ -53,7 +62,7 @@ public class User extends BaseEntity implements Serializable, UserDetails {
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.toString()));
+        return Collections.singletonList(new SimpleGrantedAuthority(this.role.toString()));
     }
 
     @JsonIgnore
